@@ -12,7 +12,8 @@ document.addEventListener('keydown', event => {
 document.addEventListener('keyup', event => {
 
 })
-const play = () => {
+
+const play = (time) => {
 
     ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -22,7 +23,8 @@ const play = () => {
     ctx.fillStyle = player1.color;
     ctx.fillRect(player1.x, player1.y, player1.width, player1.height)
 
-    window.requestAnimationFrame(play)
+
+    // window.requestAnimationFrame(play)
 }
 
 window.requestAnimationFrame(play)
