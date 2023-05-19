@@ -13,7 +13,7 @@ export default class Player {
     }
 
     down() {
-        this.y += 1;
+        this.y *= 1.02;
     }
 }
 
