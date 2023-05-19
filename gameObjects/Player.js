@@ -5,6 +5,7 @@ export default class Player {
         this.height = 25;
         this.x = 10;
         this.y = 85;
+        this.isJumping = false;
     }
 
     jump() {
