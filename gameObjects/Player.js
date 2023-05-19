@@ -8,7 +8,7 @@ export default class Player {
     }
 
     jump() {
-        this.y -= 1;
+        this.y /= 1.02;
     }
 
     down() {
