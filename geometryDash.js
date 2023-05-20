@@ -8,7 +8,6 @@ let player1 = new Player('red');
 
 document.addEventListener('keydown', event => {
     player1.isJumping = true;
-    keyHandler(event, player1)
     window.requestAnimationFrame(play)
 })
 
@@ -23,12 +22,11 @@ const play = (time) => {
 
     if (player1.isJumping) {
         // Perform the jump animation
-        player1.jump();
+        player1.jump()
 
         // Check if the jump animation is complete
         if (player1.velocityY <= 0) {
-            player1.isJumping = false;
-            player1.velocityY = 5;
+            player1.down()
         }
 
     }

@@ -15,7 +15,9 @@ export default class Player {
     }
 
     down() {
-        this.y *= 1.02;
+        this.y += this.velocityY;
+        this.velocityY += 1;
+        if (this.velocityY === 5) this.isJumping = false;
     }
 }
 
