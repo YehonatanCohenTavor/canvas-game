@@ -6,14 +6,12 @@ const ctx = canvas.getContext("2d");
 
 let player1 = new Player('red');
 
-let raf;
-
-canvas.addEventListener('mouseover', event => {
-    raf = window.requestAnimationFrame(play)
+document.addEventListener('keydown', event => {
+    player1.isJumping = true;
+    keyHandler(event, player1)
+    window.requestAnimationFrame(play)
 })
-canvas.addEventListener('mouseout', event => {
 
-})
 
 const play = (time) => {
 
@@ -22,16 +20,27 @@ const play = (time) => {
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, 110, 700, 10);
     ctx.fillStyle = player1.color;
+
+    if (player1.isJumping) {
+        // Perform the jump animation
+        player1.jump();
+
+        // Check if the jump animation is complete
+        if (player1.velocityY <= 0) {
+            player1.isJumping = false;
+            player1.velocityY = 5;
+        }
+
+    }
+
     ctx.fillRect(player1.x, player1.y, player1.width, player1.height)
 
-    player1.jump()
-
-    raf = window.requestAnimationFrame(play)
+    window.requestAnimationFrame(play)
 
 }
 
 
-
+play()
 
 
 

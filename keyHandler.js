@@ -1,6 +1,6 @@
 function keyHandler(event, gameObject) {
-    switch (event.key) {
-        case " ":
+    switch (event.code) {
+        case 'Space':
             gameObject.jump();
             break;
         default:
