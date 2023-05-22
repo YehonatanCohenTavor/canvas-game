@@ -14,6 +14,7 @@ document.addEventListener('keydown', event => {
 
 const moveObstacles = () => {
     obstacle1.move();
+    requestAnimationFrame(moveObstacles)
 }
 
 
@@ -43,11 +44,8 @@ const play = (time) => {
     ctx.fillStyle = 'green';
     ctx.fill();
 
-
-    requestAnimationFrame(moveObstacles);
 }
-
-
+moveObstacles()
 play()
 
 
