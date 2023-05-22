@@ -5,19 +5,20 @@ export default class Player {
         this.height = 25;
         this.x = 10;
         this.y = 85;
-        this.velocityY = 5;
+        this.velocityY = 8;
         this.isJumping = false;
     }
 
     jump() {
         this.y -= this.velocityY;
-        this.velocityY -= 1;
+        this.velocityY -= 0.5;
+        if (this.velocityY === 0) this.isJumping = false;
     }
 
     down() {
         this.y += this.velocityY;
-        this.velocityY += 1;
-        if (this.velocityY === 5) this.isJumping = false;
+        this.velocityY += 0.5;
+        if (this.velocityY === 8) this.y += this.velocityY
     }
 }
 
