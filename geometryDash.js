@@ -9,12 +9,17 @@ let obstacle1 = new Obstacle({ x: canvas.width - 10, y: 90 }, { x: canvas.width,
 
 document.addEventListener('keydown', event => {
     player1.isJumping = true;
-    requestAnimationFrame(play)
 })
 
 const moveObstacles = () => {
     obstacle1.move();
-    requestAnimationFrame(moveObstacles)
+}
+
+const detectCollision = (player, obstacle) => {
+    if (player.x + player.width === obstacle.a.x || player.x + player.width === obstacle.c.x) {
+        console.log('Game Over!')
+        return true;
+    }
 }
 
 
@@ -28,10 +33,10 @@ const play = (time) => {
     if (player1.isJumping) {
         // Perform the jump animation
         player1.jump()
-        requestAnimationFrame(play)
+        // requestAnimationFrame(play)
     } else if (player1.velocityY < 8) {
         player1.down()
-        requestAnimationFrame(play)
+        // requestAnimationFrame(play)
     }
 
     ctx.fillStyle = player1.color;
@@ -44,8 +49,10 @@ const play = (time) => {
     ctx.fillStyle = 'green';
     ctx.fill();
 
+    moveObstacles()
+    if (detectCollision(player1, obstacle1)) return;
+    requestAnimationFrame(play)
 }
-moveObstacles()
 play()
 
 
