@@ -16,7 +16,9 @@ const moveObstacles = () => {
 }
 
 const detectCollision = (player, obstacle) => {
-    if (player.x + player.width === obstacle.a.x || player.x + player.width === obstacle.c.x) {
+    if (player.x + player.width >= obstacle.c.x
+        &&
+        player.y + player.height <= 110 && player.y + player.height >= obstacle.a.y) {
         console.log('Game Over!')
         return true;
     }
@@ -50,9 +52,14 @@ const play = (time) => {
     ctx.fill();
 
     moveObstacles()
-    if (detectCollision(player1, obstacle1)) return;
-    requestAnimationFrame(play)
+    if (detectCollision(player1, obstacle1)) {
+        return cancelAnimationFrame(play);
+    } else {
+        requestAnimationFrame(play)
+    }
+
 }
+
 play()
 
 
