@@ -5,7 +5,11 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 let player1 = new Player('red');
-let obstacle1 = new Obstacle({ x: canvas.width - 10, y: 90 }, { x: canvas.width, y: 110 }, { x: canvas.width - 20, y: 110 })
+let obstacle1 = new Obstacle(
+    { x: canvas.width - 20, y: canvas.height - 125 },
+    { x: canvas.width, y: canvas.height - 80 },
+    { x: canvas.width - 40, y: canvas.height - 80 }
+)
 
 document.addEventListener('keydown', event => {
     player1.isJumping = true;
@@ -27,16 +31,23 @@ const detectCollision = (player, obstacle) => {
 
 const play = (time) => {
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fill();
+
+    ctx.beginPath()
+    ctx.fillStyle = 'black'
+    ctx.arc(canvas.width - 100, canvas.height / 2, 5, 0, 2 * Math.PI);
+    ctx.fill()
 
     ctx.fillStyle = 'blue';
-    ctx.fillRect(0, 110, 700, 10);
+    ctx.fillRect(0, canvas.height - 80, canvas.width, 30);
 
     if (player1.isJumping) {
         // Perform the jump animation
         player1.jump()
         // requestAnimationFrame(play)
-    } else if (player1.velocityY < 8) {
+    } else if (player1.velocityY < 12) {
         player1.down()
         // requestAnimationFrame(play)
     }

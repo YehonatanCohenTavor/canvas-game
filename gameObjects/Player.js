@@ -1,26 +1,26 @@
 export default class Player {
     constructor(color) {
         this.color = color;
-        this.width = 25;
-        this.height = 25;
-        this.x = 10;
-        this.y = 85;
-        this.velocityY = 8;
+        this.width = 50;
+        this.height = 50;
+        this.x = 30;
+        this.y = 270;
+        this.velocityY = 12;
         this.isJumping = false;
     }
 
     jump() {
         this.y -= this.velocityY;
-        this.x++;
+        this.x += 2;
         this.velocityY -= 0.5;
         if (this.velocityY === 0) this.isJumping = false;
     }
 
     down() {
         this.y += this.velocityY;
-        this.x++;
+        this.x += 2;
         this.velocityY += 0.5;
-        if (this.velocityY === 8) this.y += this.velocityY
+        if (this.velocityY === 12) this.y += this.velocityY
     }
 }
 

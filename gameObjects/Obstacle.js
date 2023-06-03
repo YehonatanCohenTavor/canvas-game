@@ -7,8 +7,8 @@ export default class Obstacle {
     }
 
     move() {
-        this.a.x -= 0.8;
-        this.b.x -= 0.8;
-        this.c.x -= 0.8;
+        this.a.x -= 1;
+        this.b.x -= 1;
+        this.c.x -= 1;
     }
 }
