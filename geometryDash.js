@@ -1,8 +1,9 @@
 import Player from './gameObjects/Player.js';
 import Obstacle from './gameObjects/Obstacle.js';
+import backgroundParticle from './gameObjects/backgroundParticle.js';
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+export const canvas = document.getElementById("canvas");
+export const ctx = canvas.getContext("2d");
 
 let player1 = new Player('red');
 let obstacle1 = new Obstacle(
@@ -35,10 +36,8 @@ const play = (time) => {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fill();
 
-    ctx.beginPath()
-    ctx.fillStyle = 'black'
-    ctx.arc(canvas.width - 100, canvas.height / 2, 5, 0, 2 * Math.PI);
-    ctx.fill()
+    const particle1 = new backgroundParticle(ctx, canvas.width - 100, canvas.height / 2)
+    particle1.draw()
 
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, canvas.height - 80, canvas.width, 30);
