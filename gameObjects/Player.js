@@ -1,6 +1,6 @@
 export default class Player {
-    constructor(color) {
-        this.color = color;
+    constructor() {
+        this.color = 'red';
         this.width = 50;
         this.height = 50;
         this.x = 30;

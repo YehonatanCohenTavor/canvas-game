@@ -5,12 +5,13 @@ import backgroundParticle from './gameObjects/backgroundParticle.js';
 export const canvas = document.getElementById("canvas");
 export const ctx = canvas.getContext("2d");
 
-let player1 = new Player('red');
+let player1 = new Player();
 let obstacle1 = new Obstacle(
     { x: canvas.width - 20, y: canvas.height - 125 },
     { x: canvas.width, y: canvas.height - 80 },
     { x: canvas.width - 40, y: canvas.height - 80 }
 )
+const particle1 = new backgroundParticle(canvas.width - 100, canvas.height / 2)
 
 document.addEventListener('keydown', event => {
     player1.isJumping = true;
@@ -21,10 +22,13 @@ const moveObstacles = () => {
 }
 
 const detectCollision = (player, obstacle) => {
-    if (player.x + player.width >= obstacle.c.x
+    // console.log('player:' + (player.x + player.width), "obstacle: " + obstacle.c.x)
+    if (player.x + player.width >= obstacle.c.x && player.x + player.width <= obstacle.b.x
         &&
-        player.y + player.height <= 110 && player.y + player.height >= obstacle.a.y) {
+        player.y + player.height < canvas.height - 80 && player.y + player.height > obstacle.a.y) {
         console.log('Game Over!')
+        console.log("obstacle: ", obstacle)
+        console.log("player: ", { x: player.x + player.width, y: player.y + player.height })
         return true;
     }
 }
@@ -36,8 +40,10 @@ const play = (time) => {
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fill();
 
-    const particle1 = new backgroundParticle(ctx, canvas.width - 100, canvas.height / 2)
-    particle1.draw()
+    ctx.beginPath();
+    ctx.fillStyle = 'black'
+    ctx.arc(particle1.x, particle1.y, particle1.radius, 0, 2 * Math.PI)
+    ctx.fill();
 
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, canvas.height - 80, canvas.width, 30);
@@ -45,10 +51,8 @@ const play = (time) => {
     if (player1.isJumping) {
         // Perform the jump animation
         player1.jump()
-        // requestAnimationFrame(play)
     } else if (player1.velocityY < 12) {
         player1.down()
-        // requestAnimationFrame(play)
     }
 
     ctx.fillStyle = player1.color;
@@ -65,6 +69,7 @@ const play = (time) => {
     if (detectCollision(player1, obstacle1)) {
         return cancelAnimationFrame(play);
     } else {
+
         requestAnimationFrame(play)
     }
 
