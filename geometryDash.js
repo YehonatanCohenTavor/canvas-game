@@ -1,81 +1,77 @@
 import Player from './gameObjects/Player.js';
 import Obstacle from './gameObjects/Obstacle.js';
 import backgroundParticle from './gameObjects/backgroundParticle.js';
+import keyHandler from './keyHandler.js';
 
 export const canvas = document.getElementById("canvas");
 export const ctx = canvas.getContext("2d");
 
-let player1 = new Player();
+let score = 0;
+let player1 = new Player(ctx);
 let obstacle1 = new Obstacle(
+    ctx,
     { x: canvas.width - 20, y: canvas.height - 125 },
     { x: canvas.width, y: canvas.height - 80 },
     { x: canvas.width - 40, y: canvas.height - 80 }
 )
-const particle1 = new backgroundParticle(canvas.width - 100, canvas.height / 2)
-
-document.addEventListener('keydown', event => {
-    player1.isJumping = true;
-})
-
-const moveObstacles = () => {
-    obstacle1.move();
+const particles = []
+for (let i = 0; i <= 15; i++) {
+    particles[i] = new backgroundParticle(ctx, canvas.width + Math.random() * 800, Math.random() * canvas.height)
 }
 
+document.addEventListener('keydown', event => {
+    keyHandler(event, player1)
+})
+
 const detectCollision = (player, obstacle) => {
-    // console.log('player:' + (player.x + player.width), "obstacle: " + obstacle.c.x)
-    if (player.x + player.width >= obstacle.c.x && player.x + player.width <= obstacle.b.x
-        &&
-        player.y + player.height < canvas.height - 80 && player.y + player.height > obstacle.a.y) {
-        console.log('Game Over!')
-        console.log("obstacle: ", obstacle)
-        console.log("player: ", { x: player.x + player.width, y: player.y + player.height })
-        return true;
+    for (let i = 0; i <= player1.width; i++) {
+        if (player.x + i > obstacle.c.x && player.x + i < obstacle.b.x
+            &&
+            player.y + i < canvas.height - 80 && player.y + i > obstacle.a.y) {
+            console.log('Game Over!')
+            return true;
+        }
     }
 }
 
 
-const play = (time) => {
-
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+const draw = (time) => {
+    //Clear canvas
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fill();
 
-    ctx.beginPath();
-    ctx.fillStyle = 'black'
-    ctx.arc(particle1.x, particle1.y, particle1.radius, 0, 2 * Math.PI)
-    ctx.fill();
+    score = Math.floor(time / 100)
 
+    ctx.font = "18px Ariel";
+    ctx.fillStyle = 'white';
+    ctx.fillText(`Score: ${score}`, canvas.width - 90, 30)
+
+    //Draw game objects.
+    for (let i = 0; i <= 15; i++) {
+        particles[i].draw();
+    }
+    player1.draw()
+    obstacle1.draw();
     ctx.fillStyle = 'blue';
     ctx.fillRect(0, canvas.height - 80, canvas.width, 30);
 
+    // Perform the jump animation
     if (player1.isJumping) {
-        // Perform the jump animation
         player1.jump()
     } else if (player1.velocityY < 12) {
         player1.down()
     }
 
-    ctx.fillStyle = player1.color;
-    ctx.fillRect(player1.x, player1.y, player1.width, player1.height)
-
-    ctx.beginPath()
-    ctx.moveTo(obstacle1.a.x, obstacle1.a.y);
-    ctx.lineTo(obstacle1.b.x, obstacle1.b.y);
-    ctx.lineTo(obstacle1.c.x, obstacle1.c.y);
-    ctx.fillStyle = 'green';
-    ctx.fill();
-
-    moveObstacles()
+    //Collision
     if (detectCollision(player1, obstacle1)) {
-        return cancelAnimationFrame(play);
+        return cancelAnimationFrame(draw);
     } else {
-
-        requestAnimationFrame(play)
+        requestAnimationFrame(draw)
     }
-
 }
 
-play()
+draw()
 
 
 

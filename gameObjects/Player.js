@@ -1,5 +1,5 @@
 export default class Player {
-    constructor() {
+    constructor(ctx) {
         this.color = 'red';
         this.width = 50;
         this.height = 50;
@@ -7,6 +7,15 @@ export default class Player {
         this.y = 270;
         this.velocityY = 12;
         this.isJumping = false;
+        this.rotationSpeed = 5;
+        this.ctx = ctx
+    }
+
+    draw() {
+        this.ctx.fillStyle = this.color;
+        // this.ctx.rotate(this.rotationSpeed)
+        this.ctx.fillRect(this.x, this.y, this.width, this.height)
+        if (this.x > 30 && !this.isJumping) this.x -= 2
     }
 
     jump() {

@@ -1,8 +1,12 @@
 function keyHandler(event, gameObject) {
     switch (event.code) {
         case 'Space':
-            gameObject.jump();
-            console.log(event.code)
+            if (gameObject.y < 270) {
+                console.log(gameObject.y)
+                break;
+            } else {
+                gameObject.isJumping = true;
+            }
             break;
         default:
             console.log(event.code)
